@@ -51,3 +51,7 @@ MANIFEST
 # SSL Used for running server locally
 cert.pem
 key.pem
+
+# uv and custom config
+config.json
+uv.lock

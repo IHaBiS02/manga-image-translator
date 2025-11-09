@@ -73,9 +73,9 @@ class Gemini2StageTranslator(CommonTranslator):
 
     def __init__(self, max_tokens = 16000, refine_temperature = 0.0, translate_temperature = 0.1):
         super().__init__()
-        self.client = OpenAI(api_key=TOGETHER_API_KEY, base_url="https://api.together.xyz/v1")
+        self.client = OpenAI(api_key=GEMINI_API_KEY, base_url="https://generativelanguage.googleapis.com/v1beta/openai/")
         self.client2 = OpenAI(api_key=GEMINI_API_KEY, base_url="https://generativelanguage.googleapis.com/v1beta/openai/")
-        self.refine_model, self.translate_model = TOGETHER_VL_MODEL, GEMINI_MODEL
+        self.refine_model, self.translate_model = GEMINI_MODEL, GEMINI_MODEL
         self.max_tokens = max_tokens
         self.refine_temperature, self.translate_temperature = refine_temperature, translate_temperature
         self.refine_response_schema, self.translate_response_schema = TextBoundingBoxes, TranslatedTexts
@@ -193,7 +193,7 @@ class Gemini2StageTranslator(CommonTranslator):
             temperature=self.translate_temperature,
             max_completion_tokens=self.max_tokens,
             response_format=self.translate_response_schema,
-            reasoning_effort='none',
+            # reasoning_effort='none',
         ).choices[0].message.parsed
         return [r.translated_text.replace("\n", " ") for r in response.translated_texts]
 
